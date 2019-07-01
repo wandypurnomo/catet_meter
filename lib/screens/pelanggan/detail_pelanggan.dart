@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 import '../../models/pelanggan.dart';
-import '../../state.dart' as AppState;
 import 'kirim_data.dart';
 
 class DetailPelangganScreen extends StatelessWidget {

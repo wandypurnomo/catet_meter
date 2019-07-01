@@ -40,6 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Catat Meter"),
+        actions: <Widget>[
+          Row(
+            children: <Widget>[
+              Text("Hallo, ${_state.model.user.nama}"),
+            ],
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -62,6 +69,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           showToast("lat: ${pos.latitude}, lng: ${pos.longitude}");
                         },
                         child: Text("Test Location"),
+                      ),
+                      FlatButton(
+                        onPressed: (){
+                          showToast("Ubah Password");
+                        },
+                        child: Text("Ubah Password"),
+                      ),
+                      FlatButton(
+                        onPressed: (){
+                          showToast("Ubah Foto");
+                        },
+                        child: Text("Ubah Foto"),
                       ),
                     ],
                   ),

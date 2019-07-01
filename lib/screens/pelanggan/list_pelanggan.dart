@@ -18,6 +18,12 @@ class ListPelanggan extends StatelessWidget {
             Text("Pelanggan")
           ],
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -51,7 +57,7 @@ class ListPelanggan extends StatelessWidget {
     final _state =
         ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
     return RefreshIndicator(
-      onRefresh: () async{
+      onRefresh: () async {
         await _state.getPelanggan();
       },
       child: ListView.builder(

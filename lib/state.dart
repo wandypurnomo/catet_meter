@@ -51,7 +51,7 @@ class State extends Model{
   }
 
   Future<void> inputDataMeteran({@required InputData data}) async{
-    final x = await repo.inputData(data);
+    await repo.inputData(data);
     notifyListeners();
   }
 

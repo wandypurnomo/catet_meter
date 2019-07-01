@@ -20,7 +20,6 @@ class KirimDataScreen extends StatefulWidget {
 }
 
 class _KirimDataScreenState extends State<KirimDataScreen> {
-  String _angkaAwal;
   String _angkaAkhir;
   ImageProvider _img = NetworkImage("https://placehold.it/100");
   String _status = "NORMAL";
@@ -112,9 +111,6 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
             ),
             SizedBox(height: 20.0),
             TextFormField(
-              onSaved: (x) {
-                setState(() => _angkaAwal = x);
-              },
               decoration: InputDecoration(
                 hintText: "Masukan angka awal",
                 prefixIcon: Icon(
@@ -122,11 +118,8 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                   color: Colors.white,
                 ),
               ),
-              validator: (x){
-                if(x.isEmpty){
-                  return "Angka awal diperlukan";
-                }
-              },
+              initialValue: widget.detail.angkaTerakhir,
+              enabled: false,
               style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 20.0),
@@ -227,7 +220,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                 InputData input = InputData();
                 input.kode = widget.detail.kode;
                 input.wilayahKerja = widget.detail.wilayahKerja;
-                input.angkaAwal = _angkaAwal;
+                input.angkaAwal = widget.detail.angkaTerakhir;
                 input.angkaAkhir = _angkaAkhir;
                 input.statusMeteran = _status;
                 input.fotoMeteran = base64Encode(bytes);
@@ -235,6 +228,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                 input.longitude = _lng.toString();
 
                 await _state.inputDataMeteran(data: input);
+                showToast("Data terkirim.");
                 Navigator.pop(context);
               },
             ),

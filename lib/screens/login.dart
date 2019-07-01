@@ -37,6 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.25),
                   Image(
                     image: AssetImage("assets/logo.jpeg"),
+                    width: 200.0,
+                    height: 200.0,
                   ),
                   SizedBox(height: 110.0),
                   TextFormField(
