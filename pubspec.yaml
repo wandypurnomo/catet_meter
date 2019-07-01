@@ -33,7 +33,7 @@ dependencies:
   geolocator:
   flutter_mobile_vision:
     git:
-      url: git@github.com:wandypurnomo/flutter_mobile_vision.git
+      url: https://github.com/wandypurnomo/flutter_mobile_vision.git
       ref: master
 
 dev_dependencies:
