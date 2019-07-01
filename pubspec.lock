@@ -47,7 +47,7 @@ packages:
       path: "."
       ref: master
       resolved-ref: f57c9189da231d9c949ef71cec7337aee9d59e04
-      url: "git@github.com:wandypurnomo/flutter_mobile_vision.git"
+      url: "https://github.com/wandypurnomo/flutter_mobile_vision.git"
     source: git
     version: "1.0.0"
   flutter_test:

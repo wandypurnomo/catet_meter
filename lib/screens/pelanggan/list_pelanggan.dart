@@ -50,12 +50,17 @@ class ListPelanggan extends StatelessWidget {
   _result(BuildContext context) {
     final _state =
         ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        final pel = _state.model.pelanggan[index];
-        return _pelangganItem(pel);
+    return RefreshIndicator(
+      onRefresh: () async{
+        await _state.getPelanggan();
       },
-      itemCount: _state.model.pelanggan.length,
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          final pel = _state.model.pelanggan[index];
+          return _pelangganItem(pel);
+        },
+        itemCount: _state.model.pelanggan.length,
+      ),
     );
   }
 
