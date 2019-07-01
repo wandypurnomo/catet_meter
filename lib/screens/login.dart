@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   SizedBox(height: MediaQuery.of(context).size.height * 0.25),
                   Image(
-                    image: NetworkImage("https://placehold.it/100"),
+                    image: AssetImage("assets/logo.jpeg"),
                   ),
                   SizedBox(height: 110.0),
                   TextFormField(
