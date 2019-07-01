@@ -112,7 +112,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
             SizedBox(height: 20.0),
             TextFormField(
               decoration: InputDecoration(
-                hintText: "Masukan angka awal",
+                hintText: "Stand awal",
                 prefixIcon: Icon(
                   Icons.first_page,
                   color: Colors.white,
@@ -128,7 +128,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                 setState(() => _angkaAkhir = x);
               },
               decoration: InputDecoration(
-                hintText: "Masukan angka akhir",
+                hintText: "Masukan stand akhir",
                 prefixIcon: Icon(
                   Icons.last_page,
                   color: Colors.white,

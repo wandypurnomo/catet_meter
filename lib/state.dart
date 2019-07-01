@@ -33,7 +33,7 @@ class State extends Model{
       model.isLoggedIn = false;
     }
 
-    await profile();
+    await init();
 
     notifyListeners();
   }
