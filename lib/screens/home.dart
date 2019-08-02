@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdam/models/pelanggan.dart';
+import 'package:pdam/screens/pelanggan/ubah_password.dart';
 import 'package:pdam/utils/helper.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_mobile_vision/flutter_mobile_vision.dart';
@@ -65,19 +66,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       FlatButton(
                         onPressed: () async {
-                          final pos = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-                          showToast("lat: ${pos.latitude}, lng: ${pos.longitude}");
+                          final pos = await Geolocator().getCurrentPosition(
+                            desiredAccuracy: LocationAccuracy.high,
+                          );
+                          showToast(
+                            "lat: ${pos.latitude}, lng: ${pos.longitude}",
+                          );
                         },
                         child: Text("Test Location"),
                       ),
                       FlatButton(
-                        onPressed: (){
-                          showToast("Ubah Password");
+                        onPressed: () async {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => UbahPassword(),),);
                         },
                         child: Text("Ubah Password"),
                       ),
                       FlatButton(
-                        onPressed: (){
+                        onPressed: () {
                           showToast("Ubah Foto");
                         },
                         child: Text("Ubah Foto"),
@@ -171,12 +176,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                         if (d != null) {
                                           Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DetailPelangganScreen(
-                                                        detail: d,
-                                                      )));
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailPelangganScreen(
+                                                detail: d,
+                                              ),
+                                            ),
+                                          );
                                         } else {
                                           showToast("Data tidak ditemukan");
                                           Navigator.pop(context);
@@ -234,11 +241,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           if (d != null) {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailPelangganScreen(
-                                          detail: d,
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailPelangganScreen(
+                                  detail: d,
+                                ),
+                              ),
+                            );
                           }
                         },
                         child: Card(
@@ -266,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: Ink(
                       child: InkWell(
-                        onTap: () async{
+                        onTap: () async {
                           await _state.logout();
                         },
                         child: Card(

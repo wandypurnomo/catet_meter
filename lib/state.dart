@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:pdam/utils/helper.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'repositories.dart' as repo;
 import 'models/pelanggan.dart';
@@ -28,8 +29,10 @@ class State extends Model{
     final x = await repo.login(username, password);
 
     if(x){
+      showToast("Login Berhasil");
       model.isLoggedIn = true;
     }else{
+      showToast("Login Gagal");
       model.isLoggedIn = false;
     }
 

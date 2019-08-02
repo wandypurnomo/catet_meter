@@ -12,13 +12,15 @@ Future<bool> login(String username,String password) async{
     "passuser":password
   };
   final resp = await r.makeRequest(r.RequestType.POST, "/login",body: body);
+  final respBody = jsonDecode(resp.body);
   
-  if(resp.statusCode == 200){
+  if(resp.statusCode == 200 && respBody["success"] == 1){
     final b = jsonDecode(resp.body);
     p.persistToken(token: b["token"]);
   }
 
-  return resp.statusCode == 200;
+
+  return resp.statusCode == 200 && respBody["success"] == 1;
 }
 
 Future<User> profile() async{
@@ -69,4 +71,30 @@ Future<bool> inputData(InputData data) async{
   }
 
   return resp.statusCode == 200;
+}
+
+Future<bool> resetPassword(String newPassword) async{
+  final body = {
+    "passuser": newPassword
+  };
+
+  final resp = await r.makeAuthRequest(r.RequestType.POST, "/resetpwd",body: body);
+  final respBody = jsonDecode(resp.body);
+
+  return resp.statusCode == 200 && respBody["status"] == 1;
+}
+
+Future<List> pencarian(String kodePelanggan,String namaPelanggan) async{
+  final body = {
+    "kode_pelanggan": kodePelanggan,
+    "nama_pelanggan": namaPelanggan,
+  };
+
+  final resp = await r.makeAuthRequest(r.RequestType.POST, "/pencarian",body: body);
+  final respBody = jsonDecode(resp.body);
+
+  if(resp.statusCode == 200 && respBody["status"] == 1) return [];
+
+  final data = respBody["data"];
+  return data.map<Pelanggan>((json) => Pelanggan.fromJson(json)).toList();
 }
