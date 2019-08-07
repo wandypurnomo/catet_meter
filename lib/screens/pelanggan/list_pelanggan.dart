@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:pdam/models/tagihan.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../models/pelanggan.dart';
 import '../../state.dart' as AppState;
+import 'detail_pelanggan.dart';
 
-class ListPelanggan extends StatelessWidget {
+class ListPelanggan extends StatefulWidget {
+  @override
+  _ListPelangganState createState() => _ListPelangganState();
+}
+
+class _ListPelangganState extends State<ListPelanggan> {
+  bool _searchActive;
+  TextEditingController _c;
+
+  @override
+  void initState() {
+    _searchActive = false;
+    _c = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _state =
@@ -11,7 +28,11 @@ class ListPelanggan extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: _searchActive ? TextField(
+          onChanged: (x)async{
+            await _state.searchPelanggan(x);
+          },
+        ):Row(
           children: <Widget>[
             Icon(Icons.supervised_user_circle),
             SizedBox(width: 5.0),
@@ -21,7 +42,9 @@ class ListPelanggan extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              setState(() => _searchActive = !_searchActive);
+            },
           ),
         ],
       ),
@@ -63,20 +86,42 @@ class ListPelanggan extends StatelessWidget {
       child: ListView.builder(
         itemBuilder: (context, index) {
           final pel = _state.model.pelanggan[index];
-          return _pelangganItem(pel);
+          return _pelangganItem(context,pel);
         },
         itemCount: _state.model.pelanggan.length,
       ),
     );
   }
 
-  _pelangganItem(Pelanggan p) {
+  _pelangganItem(BuildContext context,Pelanggan p) {
+    final _state =
+    ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
     return Container(
-      child: Card(
-        child: ListTile(
-          title: Text(p.nama),
-          subtitle: Text(p.status),
-          trailing: Text(p.kode),
+      child: InkWell(
+        onTap: () async{
+          DetailPelanggan d =
+          await _state.getDetailPelanggan(kode: p.kode);
+
+          DetailTagihan t = await _state.getDetailTagihan(kode: p.kode);
+
+          if (d != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailPelangganScreen(
+                  detail: d,
+                  tagihan: t,
+                ),
+              ),
+            );
+          }
+        },
+        child: Card(
+          child: ListTile(
+            title: Text(p.nama),
+            subtitle: Text(p.status),
+            trailing: Text(p.kode),
+          ),
         ),
       ),
     );

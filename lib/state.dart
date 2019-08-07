@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:pdam/utils/helper.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'models/tagihan.dart';
 import 'repositories.dart' as repo;
 import 'models/pelanggan.dart';
 import 'models/user.dart';
@@ -53,6 +54,11 @@ class State extends Model{
     return x;
   }
 
+  Future<DetailTagihan> getDetailTagihan({@required String kode}) async{
+    final x = await repo.detailTagihan(code: kode);
+    return x;
+  }
+
   Future<void> inputDataMeteran({@required InputData data}) async{
     await repo.inputData(data);
     notifyListeners();
@@ -61,6 +67,22 @@ class State extends Model{
   Future<void> logout(){
     prefs.removeToken();
     model.isLoggedIn = false;
+    notifyListeners();
+  }
+
+  Future<bool> resetPassword({@required String newPassword}) async{
+    return await repo.resetPassword(newPassword);
+  }
+
+  searchPelanggan(String kwd) async{
+    final pel = await repo.pencarian(kwd);
+    model.pelanggan = pel;
+    notifyListeners();
+  }
+
+  setPelanggan(List<Pelanggan> p){
+    model.pelanggan.clear();
+    model.pelanggan.addAll(p);
     notifyListeners();
   }
 
@@ -74,8 +96,9 @@ class AppModel{
   User user;
   List<Pelanggan> pelanggan;
   DetailPelanggan detailPelanggan;
+  DetailTagihan detailTagihan;
 
-  AppModel({this.isLoading,this.isLoggedIn,this.detailPelanggan,this.user,this.pelanggan});
+  AppModel({this.isLoading,this.isLoggedIn,this.detailPelanggan,this.user,this.pelanggan,this.detailTagihan});
 
   factory AppModel.init(){
     return AppModel(
@@ -84,6 +107,7 @@ class AppModel{
       user: null,
       pelanggan: [],
       detailPelanggan: null,
+      detailTagihan: null,
     );
   }
 }

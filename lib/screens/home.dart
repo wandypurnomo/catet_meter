@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdam/models/pelanggan.dart';
+import 'package:pdam/models/tagihan.dart';
 import 'package:pdam/screens/pelanggan/ubah_password.dart';
 import 'package:pdam/utils/helper.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -174,6 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         DetailPelanggan d = await _state
                                             .getDetailPelanggan(kode: _c.text);
 
+                                        DetailTagihan t = await _state.getDetailTagihan(kode: _c.text);
+
                                         if (d != null) {
                                           Navigator.push(
                                             context,
@@ -181,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               builder: (context) =>
                                                   DetailPelangganScreen(
                                                 detail: d,
+                                                    tagihan: t,
                                               ),
                                             ),
                                           );
@@ -239,12 +243,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           DetailPelanggan d =
                               await _state.getDetailPelanggan(kode: data);
 
+                          DetailTagihan t = await _state.getDetailTagihan(kode: data);
+
                           if (d != null) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DetailPelangganScreen(
                                   detail: d,
+                                  tagihan: t,
                                 ),
                               ),
                             );

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:pdam/utils/request.dart' as r;
 import 'models/pelanggan.dart';
+import 'models/tagihan.dart';
 import 'models/user.dart';
 import 'utils/prefs.dart' as p;
 
@@ -81,12 +82,13 @@ Future<bool> resetPassword(String newPassword) async{
   final resp = await r.makeAuthRequest(r.RequestType.POST, "/resetpwd",body: body);
   final respBody = jsonDecode(resp.body);
 
-  return resp.statusCode == 200 && respBody["status"] == 1;
+  print(respBody);
+
+  return resp.statusCode == 200 && respBody["success"] == 1;
 }
 
-Future<List> pencarian(String kodePelanggan,String namaPelanggan) async{
+Future<List<Pelanggan>> pencarian(String namaPelanggan) async{
   final body = {
-    "kode_pelanggan": kodePelanggan,
     "nama_pelanggan": namaPelanggan,
   };
 
@@ -97,4 +99,17 @@ Future<List> pencarian(String kodePelanggan,String namaPelanggan) async{
 
   final data = respBody["data"];
   return data.map<Pelanggan>((json) => Pelanggan.fromJson(json)).toList();
+}
+
+Future<DetailTagihan> detailTagihan({@required String code}) async{
+  final body = {
+    "kode_pelanggan": code,
+  };
+
+  final resp = await r.makeAuthRequest(r.RequestType.POST, "/detailtagihan",body: body);
+  final respBody = jsonDecode(resp.body);
+
+  if(resp.statusCode == 200 && respBody["status"] == 1) return null;
+
+  return DetailTagihan.fromJson(respBody);
 }
