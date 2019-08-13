@@ -20,6 +20,7 @@ class KirimDataScreen extends StatefulWidget {
 }
 
 class _KirimDataScreenState extends State<KirimDataScreen> {
+  final _formKey = GlobalKey<FormState>();
   String _angkaAkhir;
   ImageProvider _img = NetworkImage("https://placehold.it/100");
   String _status = "NORMAL";
@@ -68,171 +69,176 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
           ),
         ),
         padding: EdgeInsets.all(8.0),
-        child: ListView(
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Masukan username anda",
-                prefixIcon: Icon(
-                  Icons.person_outline,
-                  color: Colors.white,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Masukan username anda",
+                  prefixIcon: Icon(
+                    Icons.person_outline,
+                    color: Colors.white,
+                  ),
                 ),
+                enabled: false,
+                initialValue: widget.detail.nama,
+                style: TextStyle(color: Colors.white),
               ),
-              enabled: false,
-              initialValue: widget.detail.nama,
-              style: TextStyle(color: Colors.white),
-            ),
-            SizedBox(height: 20.0),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Masukan kode anda",
-                prefixIcon: Icon(
-                  Icons.dialpad,
-                  color: Colors.white,
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Masukan kode anda",
+                  prefixIcon: Icon(
+                    Icons.dialpad,
+                    color: Colors.white,
+                  ),
                 ),
+                enabled: false,
+                initialValue: widget.detail.kode,
+                style: TextStyle(color: Colors.white),
               ),
-              enabled: false,
-              initialValue: widget.detail.kode,
-              style: TextStyle(color: Colors.white),
-            ),
-            SizedBox(height: 20.0),
-            TextFormField(
-              onSaved: (x) {},
-              decoration: InputDecoration(
-                hintText: "Masukan status anda",
-                prefixIcon: Icon(
-                  Icons.person_outline,
-                  color: Colors.white,
+              SizedBox(height: 20.0),
+              TextFormField(
+                onSaved: (x) {},
+                decoration: InputDecoration(
+                  hintText: "Masukan status anda",
+                  prefixIcon: Icon(
+                    Icons.person_outline,
+                    color: Colors.white,
+                  ),
                 ),
+                enabled: false,
+                initialValue: widget.detail.status,
+                style: TextStyle(color: Colors.white),
               ),
-              enabled: false,
-              initialValue: widget.detail.status,
-              style: TextStyle(color: Colors.white),
-            ),
-            SizedBox(height: 20.0),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Stand awal",
-                prefixIcon: Icon(
-                  Icons.first_page,
-                  color: Colors.white,
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Stand awal",
+                  prefixIcon: Icon(
+                    Icons.first_page,
+                    color: Colors.white,
+                  ),
                 ),
+                initialValue: widget.detail.angkaTerakhir,
+                enabled: false,
+                style: TextStyle(color: Colors.white),
               ),
-              initialValue: widget.detail.angkaTerakhir,
-              enabled: false,
-              style: TextStyle(color: Colors.white),
-            ),
-            SizedBox(height: 20.0),
-            TextFormField(
-              onSaved: (x) {
-                setState(() => _angkaAkhir = x);
-              },
-              decoration: InputDecoration(
-                hintText: "Masukan stand akhir",
-                prefixIcon: Icon(
-                  Icons.last_page,
-                  color: Colors.white,
+              SizedBox(height: 20.0),
+              TextFormField(
+                onSaved: (x) {
+                  setState(() => _angkaAkhir = x);
+                },
+                decoration: InputDecoration(
+                  hintText: "Masukan stand akhir",
+                  prefixIcon: Icon(
+                    Icons.last_page,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              validator: (x){
-                if(x.isEmpty){
-                  return "Angka akhir diperlukan";
-                }
+                validator: (x){
+                  if(x.isEmpty){
+                    return "Angka akhir diperlukan";
+                  }
 
-                if(_imageFile == null){
-                  return "Foto diperlukan";
-                }
-              },
-              style: TextStyle(color: Colors.white),
-            ),
-            SizedBox(height: 20.0),
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(
-                color: Colors.white,
-                width: 2.0,
-                style: BorderStyle.solid,
-              )),
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
-              child: DropdownButton<String>(
-                isExpanded: true,
-                items: [
-                  DropdownMenuItem<String>(
-                    value: "NORMAL",
-                    child: Text("NORMAL"),
+                  if(_imageFile == null){
+                    return "Foto diperlukan";
+                  }
+                },
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(height: 20.0),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                  color: Colors.white,
+                  width: 2.0,
+                  style: BorderStyle.solid,
+                )),
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: "NORMAL",
+                      child: Text("NORMAL"),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: "RUSAK",
+                      child: Text("RUSAK"),
+                    ),
+                  ],
+                  value: _status,
+                  onChanged: (x) {
+                    setState(() => _status = x);
+                  },
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Container(
+                child: Center(
+                  child: Center(
+                    child: Image(
+                      image: _img,
+                      width: 200.0,
+                      height: 200.0,
+                    ),
                   ),
-                  DropdownMenuItem<String>(
-                    value: "RUSAK",
-                    child: Text("RUSAK"),
+                ),
+              ),
+              OutlineButton(
+                borderSide: BorderSide(
+                  color: Colors.white,
+                  width: 2.0,
+                ),
+                child: Text(
+                  "Ambil Foto",
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
-                ],
-                value: _status,
-                onChanged: (x) {
-                  setState(() => _status = x);
+                ),
+                onPressed: () async {
+                  File f =
+                      await mp.pickImage(ImageSource.camera, withCropper: true);
+                  setState(() => _img = FileImage(f));
+                  setState(() => _imageFile = f);
                 },
               ),
-            ),
-            SizedBox(height: 20.0),
-            Container(
-              child: Center(
-                child: Center(
-                  child: Image(
-                    image: _img,
-                    width: 200.0,
-                    height: 200.0,
+
+              OutlineButton(
+                borderSide: BorderSide(
+                  color: Colors.white,
+                  width: 2.0,
+                ),
+                child: Text(
+                  "KIRIM",
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
-              ),
-            ),
-            OutlineButton(
-              borderSide: BorderSide(
-                color: Colors.white,
-                width: 2.0,
-              ),
-              child: Text(
-                "Ambil Foto",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: () async {
-                File f =
-                    await mp.pickImage(ImageSource.camera, withCropper: true);
-                setState(() => _img = FileImage(f));
-                setState(() => _imageFile = f);
-              },
-            ),
+                onPressed: () async {
+                  final bytes = await _imageFile.readAsBytes();
+                  if(_formKey.currentState.validate()){
+                    InputData input = InputData();
+                    input.kode = widget.detail.kode;
+                    input.wilayahKerja = widget.detail.wilayahKerja;
+                    input.angkaAwal = widget.detail.angkaTerakhir;
+                    input.angkaAkhir = _angkaAkhir;
+                    input.statusMeteran = _status;
+                    input.fotoMeteran = base64Encode(bytes);
+                    input.latitude = _lat.toString();
+                    input.longitude = _lng.toString();
 
-            OutlineButton(
-              borderSide: BorderSide(
-                color: Colors.white,
-                width: 2.0,
-              ),
-              child: Text(
-                "KIRIM",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: () async {
-                final bytes = await _imageFile.readAsBytes();
+                    await _state.inputDataMeteran(data: input);
+                    showToast("Data terkirim.");
+                    Navigator.pop(context);
+                  }
 
-                InputData input = InputData();
-                input.kode = widget.detail.kode;
-                input.wilayahKerja = widget.detail.wilayahKerja;
-                input.angkaAwal = widget.detail.angkaTerakhir;
-                input.angkaAkhir = _angkaAkhir;
-                input.statusMeteran = _status;
-                input.fotoMeteran = base64Encode(bytes);
-                input.latitude = _lat.toString();
-                input.longitude = _lng.toString();
-
-                await _state.inputDataMeteran(data: input);
-                showToast("Data terkirim.");
-                Navigator.pop(context);
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

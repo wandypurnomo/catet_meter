@@ -66,6 +66,8 @@ Future<List<Pelanggan>> getPelanggan() async{
 Future<bool> inputData(InputData data) async{
   final body = data.toMap();
   final resp = await r.makeAuthRequest(r.RequestType.POST, "/inputdata",body: body);
+  print(body);
+  print(resp.body);
 
   if(resp.statusCode != 200){
     throw Exception("Gagal input data.");
