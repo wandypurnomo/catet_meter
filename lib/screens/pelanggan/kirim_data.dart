@@ -220,6 +220,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                 onPressed: () async {
                   final bytes = await _imageFile.readAsBytes();
                   if(_formKey.currentState.validate()){
+                    _formKey.currentState.save();
                     InputData input = InputData();
                     input.kode = widget.detail.kode;
                     input.wilayahKerja = widget.detail.wilayahKerja;
@@ -229,7 +230,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                     input.fotoMeteran = base64Encode(bytes);
                     input.latitude = _lat.toString();
                     input.longitude = _lng.toString();
-
+                    print(input.toMap());
                     await _state.inputDataMeteran(data: input);
                     showToast("Data terkirim.");
                     Navigator.pop(context);
