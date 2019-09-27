@@ -31,6 +31,7 @@ dependencies:
   path_provider:
   http:
   geolocator:
+  incrementally_loading_listview:
   flutter_mobile_vision:
     git:
       url: https://github.com/wandypurnomo/flutter_mobile_vision.git

@@ -3,8 +3,9 @@ class Pelanggan {
   final String kode;
   final String nama;
   final String status;
+  final String flag;
 
-  Pelanggan({this.id, this.kode, this.nama, this.status});
+  Pelanggan({this.id, this.kode, this.nama, this.status,this.flag});
 
   factory Pelanggan.fromJson(Map<String, dynamic> json) {
     print(json);
@@ -13,6 +14,7 @@ class Pelanggan {
       kode: json["kode_pelanggan"],
       nama: json["nama_pelanggan"],
       status: json["status_data"],
+      flag: json["flag"],
     );
   }
 }
@@ -30,7 +32,6 @@ class DetailPelanggan {
   final String tagihanBulanLalu;
   final String tagihanTahunLalu;
   final String angkaTerakhir;
-  final String tagihanBayarTerakhir;
   final String kondisiMeteranTerakhir;
 
   DetailPelanggan({
@@ -46,7 +47,6 @@ class DetailPelanggan {
     this.tagihanBulanLalu,
     this.tagihanTahunLalu,
     this.angkaTerakhir,
-    this.tagihanBayarTerakhir,
     this.kondisiMeteranTerakhir,
   });
 
@@ -64,7 +64,6 @@ class DetailPelanggan {
       tagihanBulanLalu: json["tagihan_bulan_lalu"],
       tagihanTahunLalu: json["tagihan_tahun_lalu"],
       angkaTerakhir: json["angka_terakhir"],
-      tagihanBayarTerakhir: json["tagihan_bayar_terakhir"],
       kondisiMeteranTerakhir: json["kondisi_meteran_terakhir"],
     );
   }
@@ -72,22 +71,16 @@ class DetailPelanggan {
 
 class InputData{
   String kode;
-  String wilayahKerja;
   String angkaAwal;
   String angkaAkhir;
-  String latitude;
-  String longitude;
   String statusMeteran;
   String fotoMeteran;
 
   toMap(){
     return {
       "kode_pelanggan":kode,
-      "wilayah_kerja":wilayahKerja,
       "angka_awal":angkaAwal,
       "angka_akhir":angkaAkhir,
-      "latitude":latitude,
-      "longitude":longitude,
       "status_meteran":statusMeteran,
       "foto_meteran":fotoMeteran,
     };

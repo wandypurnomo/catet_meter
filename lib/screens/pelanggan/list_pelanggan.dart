@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:incrementally_loading_listview/incrementally_loading_listview.dart';
+import 'package:pdam/models/paginated_data.dart';
 import 'package:pdam/models/tagihan.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../models/pelanggan.dart';
 import '../../state.dart' as AppState;
+import 'package:pdam/repositories.dart' as repo;
 import 'detail_pelanggan.dart';
 
 class ListPelanggan extends StatefulWidget {
@@ -11,6 +14,11 @@ class ListPelanggan extends StatefulWidget {
 }
 
 class _ListPelangganState extends State<ListPelanggan> {
+  final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  int _currentPage;
+  PaginatedData<Pelanggan> _paginatedData;
+  List<Pelanggan> _items;
+
   bool _searchActive;
   TextEditingController _c;
 
@@ -18,6 +26,14 @@ class _ListPelangganState extends State<ListPelanggan> {
   void initState() {
     _searchActive = false;
     _c = TextEditingController();
+    _currentPage = 1;
+    _paginatedData = null;
+    _items = [];
+
+    Future.delayed(Duration(microseconds: 200)).then((_) {
+      _refreshIndicatorKey.currentState?.show();
+    });
+
     super.initState();
   }
 
@@ -30,7 +46,7 @@ class _ListPelangganState extends State<ListPelanggan> {
       appBar: AppBar(
         title: _searchActive ? TextField(
           onChanged: (x)async{
-            await _state.searchPelanggan(x);
+            await _search(kwd: x);
           },
         ):Row(
           children: <Widget>[
@@ -77,19 +93,12 @@ class _ListPelangganState extends State<ListPelanggan> {
   }
 
   _result(BuildContext context) {
-    final _state =
-        ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
     return RefreshIndicator(
+      key: _refreshIndicatorKey,
       onRefresh: () async {
-        await _state.getPelanggan();
+        await _getData(page: 1,refresh: true);
       },
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          final pel = _state.model.pelanggan[index];
-          return _pelangganItem(context,pel);
-        },
-        itemCount: _state.model.pelanggan.length,
-      ),
+      child: _listContent(context),
     );
   }
 
@@ -110,7 +119,6 @@ class _ListPelangganState extends State<ListPelanggan> {
               MaterialPageRoute(
                 builder: (context) => DetailPelangganScreen(
                   detail: d,
-                  tagihan: t,
                 ),
               ),
             );
@@ -125,5 +133,48 @@ class _ListPelangganState extends State<ListPelanggan> {
         ),
       ),
     );
+  }
+
+  _getData({int page:1,bool refresh:false}) async{
+    if(refresh){
+      setState(() => _items.clear());
+    }
+    await repo.getPaginatedPelaggan(page: page).then((PaginatedData<Pelanggan> pp){
+      setState(() {
+        _paginatedData = pp;
+        _items.addAll(_paginatedData.items);
+      });
+    });
+  }
+
+  _search({String kwd}) async{
+    if(kwd != null && kwd.length > 3){
+      setState(() => _items.clear());
+      await repo.pencarian(kwd).then((res){
+        _items.addAll(res);
+      });
+    }
+  }
+
+  Widget _listContent(BuildContext context){
+    int _itemLength = _paginatedData?.items?.length;
+
+    if(_itemLength != null && _itemLength > 0){
+      return IncrementallyLoadingListView(
+        hasMore: () => _paginatedData?.hasMorePages,
+        loadMoreOffsetFromBottom: 2,
+        itemCount: () => _items.length,
+        loadMore: () async{
+          setState(() => _currentPage++);
+          await _getData(page: _currentPage);
+        },
+        itemBuilder: (context,index){
+          final _item = _items[index];
+          return _pelangganItem(context, _item);
+        },
+      );
+    }else{
+      return _emptyResult();
+    }
   }
 }

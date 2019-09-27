@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
+import 'package:pdam/models/paginated_data.dart';
 import 'package:pdam/utils/request.dart' as r;
 import 'models/pelanggan.dart';
 import 'models/tagihan.dart';
@@ -12,7 +13,7 @@ Future<bool> login(String username,String password) async{
     "nameuser":username,
     "passuser":password
   };
-  final resp = await r.makeRequest(r.RequestType.POST, "/login",body: body);
+  final resp = await r.makeRequestNew(r.RequestType.POST, "/login",body: body);
   final respBody = jsonDecode(resp.body);
   
   if(resp.statusCode == 200 && respBody["success"] == 1){
@@ -25,7 +26,7 @@ Future<bool> login(String username,String password) async{
 }
 
 Future<User> profile() async{
-  final resp = await r.makeAuthRequest(r.RequestType.GET, "/profile");
+  final resp = await r.makeAuthRequestNew(r.RequestType.GET, "/profile");
 
   final body = jsonDecode(resp.body);
 
@@ -42,7 +43,7 @@ Future<DetailPelanggan> getDetailPelanggan({@required String kode}) async{
     "kode_pelanggan":kode,
   };
   
-  final resp = await r.makeAuthRequest(r.RequestType.POST, "/pelanggan",body: body);
+  final resp = await r.makeAuthRequestNew(r.RequestType.POST, "/pelanggan",body: body);
   final json = jsonDecode(resp.body);
   if(json["success"] == 0){
 //    throw Exception("Data tidak ditemukan.");
@@ -52,20 +53,48 @@ Future<DetailPelanggan> getDetailPelanggan({@required String kode}) async{
   return DetailPelanggan.fromJson(json);
 }
 
+Future<PaginatedData<Pelanggan>> getPaginatedPelaggan({int page:1}) async{
+  final resp = await r.makeAuthRequestNew(r.RequestType.GET, "/listpelangganp?page=$page");
+  final body = jsonDecode(resp.body);
+  if(resp.statusCode != 200 || body["success"] != 1){
+    throw Exception("Tidak ada data");
+  }
+
+  final itemMap = body["data"];
+  final itemList = itemMap.map<Pelanggan>((json) => Pelanggan.fromJson(json)).toList();
+  final paginatedData = PaginatedData<Pelanggan>(
+    currentPage: body["current_page"],
+    firstPage: body["first_page"],
+    lastPage: body["last_page"],
+    total: body["total"],
+    isEmpty: body["is_empty"],
+    hasMorePages: body["has_more_pages"],
+    items: itemList,
+  );
+
+  return paginatedData;
+
+}
+
 Future<List<Pelanggan>> getPelanggan() async{
-  final resp = await r.makeAuthRequest(r.RequestType.POST, "/listpelanggan");
+  final resp = await r.makeAuthRequestNew(r.RequestType.POST, "/listpelangganp");
   if(resp.statusCode != 200){
     throw Exception("Data tidak ditemukan");
   }
 
   final b = jsonDecode(resp.body);
+
+  if(b["success"] != 1){
+    throw Exception("Data tidak ditemukan");
+  }
+
   final data= b["data"];
   return data.map<Pelanggan>((json) => Pelanggan.fromJson(json)).toList();
 }
 
 Future<bool> inputData(InputData data) async{
   final body = data.toMap();
-  final resp = await r.makeAuthRequest(r.RequestType.POST, "/inputdata",body: body);
+  final resp = await r.makeAuthRequestNew(r.RequestType.POST, "/inputdata",body: body);
   print(body);
   print(resp.body);
 
@@ -94,8 +123,10 @@ Future<List<Pelanggan>> pencarian(String namaPelanggan) async{
     "nama_pelanggan": namaPelanggan,
   };
 
-  final resp = await r.makeAuthRequest(r.RequestType.POST, "/pencarian",body: body);
+  final resp = await r.makeAuthRequestNew(r.RequestType.POST, "/pencarian",body: body);
   final respBody = jsonDecode(resp.body);
+
+  print(respBody);
 
   if(resp.statusCode == 200 && respBody["status"] == 1) return [];
 

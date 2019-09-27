@@ -1,8 +1,7 @@
 class User {
   final String id;
   final String nama;
-  final String kecamatan;
-  final String kabupaten;
+  final String wilayah;
   final String totalPelanggan;
   final String telahDicatat;
   final String progressCatat;
@@ -10,8 +9,7 @@ class User {
   User({
     this.id,
     this.nama,
-    this.kecamatan,
-    this.kabupaten,
+    this.wilayah,
     this.progressCatat,
     this.telahDicatat,
     this.totalPelanggan,
@@ -20,8 +18,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       nama: json["nama_petugas"],
-      kecamatan: json["kecamatan_tugas"],
-      kabupaten: json["kabupaten_tugas"],
+      wilayah: json["wilayah_tugas"],
       totalPelanggan: json["total_pelanggan"],
       telahDicatat: json["telah_dicatat"],
       progressCatat: json["progress_catat"],

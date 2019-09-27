@@ -175,8 +175,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         DetailPelanggan d = await _state
                                             .getDetailPelanggan(kode: _c.text);
 
-                                        DetailTagihan t = await _state.getDetailTagihan(kode: _c.text);
-
                                         if (d != null) {
                                           Navigator.push(
                                             context,
@@ -184,7 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                               builder: (context) =>
                                                   DetailPelangganScreen(
                                                 detail: d,
-                                                    tagihan: t,
                                               ),
                                             ),
                                           );
@@ -251,7 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               MaterialPageRoute(
                                 builder: (context) => DetailPelangganScreen(
                                   detail: d,
-                                  tagihan: t,
                                 ),
                               ),
                             );

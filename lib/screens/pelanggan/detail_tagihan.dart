@@ -96,11 +96,6 @@ class DetailTagihan extends StatelessWidget {
                   title: Text("Angka akhir"),
                   subtitle: Text(detail.angkaTerakhir),
                 ),
-//
-                ListTile(
-                  title: Text("Tagihan bayat terakhir"),
-                  subtitle: Text(detail.tagihanBayarTerakhir),
-                ),
 
                 ListTile(
                   title: Text("Kondisi meteran terakhir"),
