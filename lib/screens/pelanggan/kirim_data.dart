@@ -3,6 +3,13 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/material.dart' as prefix0;
 import 'package:image_picker/image_picker.dart';
 import 'package:pdam/models/pelanggan.dart';
 import 'package:pdam/utils/helper.dart';
@@ -24,14 +31,15 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
   final _formKey = GlobalKey<FormState>();
   String _angkaAkhir;
   ImageProvider _img = NetworkImage("https://placehold.it/100");
-  String _status = "NORMAL";
+  String _status = "normal";
   File _imageFile;
   double _lat;
   double _lng;
   bool _loading;
 
-  _fetchLocation() async{
-    final pos = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  _fetchLocation() async {
+    final pos = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     setState(() {
       _lat = pos.latitude;
       _lng = pos.longitude;
@@ -50,7 +58,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
   @override
   Widget build(BuildContext context) {
     final _state =
-    ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
+        ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -143,17 +151,18 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                         color: Colors.white,
                       ),
                     ),
-                    validator: (x){
-                      if(x.isEmpty){
+                    validator: (x) {
+                      if (x.isEmpty) {
                         return "Angka akhir diperlukan";
                       }
 
-                      if(_imageFile == null){
+                      if (_imageFile == null) {
                         return "Foto diperlukan";
                       }
 
-                      final awal = int.parse(widget.detail.angkaTerakhir ?? "0");
-                      if(int.parse(x) < awal){
+                      final awal =
+                          int.parse(widget.detail.angkaTerakhir ?? "0");
+                      if (int.parse(x) < awal) {
                         return "stand akhir lebih kecil dari stand awal";
                       }
 
@@ -165,21 +174,45 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                   Container(
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.white,
-                          width: 2.0,
-                          style: BorderStyle.solid,
-                        )),
+                      color: Colors.white,
+                      width: 2.0,
+                      style: BorderStyle.solid,
+                    )),
                     padding: EdgeInsets.symmetric(horizontal: 5.0),
                     child: DropdownButton<String>(
                       isExpanded: true,
                       items: [
                         DropdownMenuItem<String>(
-                          value: "NORMAL",
-                          child: Text("NORMAL"),
+                          value: "normal",
+                          child: Text("NORMAL",style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
-                          value: "RUSAK",
-                          child: Text("RUSAK"),
+                          value: "buram",
+                          child: Text("BURAM",style: TextStyle(color: Colors.black45)),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: "tertanam",
+                          child: Text("TERTANAM",style: TextStyle(color: Colors.black45)),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: "terkunci/rumah kosong",
+                          child: Text("TERKUNCI/RUMAH KOSONG",style: TextStyle(color: Colors.black45)),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: "mati",
+                          child: Text("MATI",style: TextStyle(color: Colors.black45)),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: "baca mundur",
+                          child: Text("BACA MUNDUR",style: TextStyle(color: Colors.black45)),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: "tidak ada sinyal",
+                          child: Text("TIDAK ADA SINYAL",style: TextStyle(color: Colors.black45)),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: "lainya",
+                          child: Text("LAINYA",style: TextStyle(color: Colors.black45)),
                         ),
                       ],
                       value: _status,
@@ -212,13 +245,12 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      File f =
-                      await mp.pickImage(ImageSource.camera, withCropper: true);
+                      File f = await mp.pickImage(ImageSource.camera,
+                          withCropper: true);
                       setState(() => _img = FileImage(f));
                       setState(() => _imageFile = f);
                     },
                   ),
-
                   OutlineButton(
                     borderSide: BorderSide(
                       color: Colors.white,
@@ -231,11 +263,11 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      if(_imageFile == null){
+                      if (_imageFile == null) {
                         showToast("Gambar diperlukan");
                         return;
                       }
-                      if(_formKey.currentState.validate()){
+                      if (_formKey.currentState.validate()) {
                         setState(() => _loading = true);
                         _formKey.currentState.save();
                         final bytes = await _imageFile.readAsBytes();
@@ -252,7 +284,6 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                         showToast("Data terkirim.");
                         Navigator.pop(context);
                       }
-
                     },
                   ),
                 ],
@@ -263,7 +294,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
         Visibility(
           visible: _loading,
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0,sigmaY: 10.0),
+            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
             child: Container(
               child: Center(
                 child: CircularProgressIndicator(),
