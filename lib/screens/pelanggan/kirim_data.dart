@@ -135,6 +135,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                     onSaved: (x) {
                       setState(() => _angkaAkhir = x);
                     },
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: "Masukan stand akhir",
                       prefixIcon: Icon(
@@ -151,7 +152,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                         return "Foto diperlukan";
                       }
 
-                      final awal = int.parse(_angkaAkhir ?? "0");
+                      final awal = int.parse(widget.detail.angkaTerakhir ?? "0");
                       if(int.parse(x) < awal){
                         return "stand akhir lebih kecil dari stand awal";
                       }
@@ -230,10 +231,14 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      final bytes = await _imageFile.readAsBytes();
+                      if(_imageFile == null){
+                        showToast("Gambar diperlukan");
+                        return;
+                      }
                       if(_formKey.currentState.validate()){
                         setState(() => _loading = true);
                         _formKey.currentState.save();
+                        final bytes = await _imageFile.readAsBytes();
                         InputData input = InputData();
                         input.kode = widget.detail.kode;
                         input.angkaAwal = widget.detail.angkaTerakhir;

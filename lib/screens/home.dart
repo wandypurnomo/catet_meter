@@ -170,15 +170,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(3.0),
-                                        child: _searchLoading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white),strokeWidth: 3,):Text(
-                                          "Cari",
+                                        child:Text(
+                                          _searchLoading ? "Memuat...":"Cari",
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ),
-                                      onPressed: () async {
+                                      onPressed: _searchLoading ? null :() async {
                                         setState(() => _searchLoading = true);
                                         DetailPelanggan d = await _state.getDetailPelanggan(kode: _c.text);
-                                        setState(() => _searchLoading = false);
                                         if (d != null) {
                                           Navigator.push(
                                             context,
@@ -188,11 +187,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 detail: d,
                                               ),
                                             ),
-                                          );
+                                          ).then((_){
+                                            Navigator.pop(context);
+                                          });
                                         } else {
                                           showToast("Data tidak ditemukan");
                                           Navigator.pop(context);
                                         }
+                                        setState(() => _searchLoading = false);
                                       },
                                       color: Colors.blue,
                                     ),
