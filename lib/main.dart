@@ -20,6 +20,16 @@ class Entry extends StatelessWidget{
           );
         }
 
+        if(s.hasError){
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: Text(s.error),
+              ),
+            ),
+          );
+        }
+
         return Splash();
       },
     );

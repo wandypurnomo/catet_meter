@@ -15,6 +15,7 @@ class Root extends StatelessWidget {
 
     return MaterialApp(
       title: "Catat Meteran PDAM",
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           color: Colors.blue,

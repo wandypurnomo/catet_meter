@@ -8,6 +8,7 @@ import 'package:pdam/utils/helper.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:pdam/state.dart' as AppState;
 import 'package:pdam/utils/media_process.dart' as mp;
+import 'package:geolocator/geolocator.dart';
 
 class KirimDataScreen extends StatefulWidget {
   final DetailPelanggan detail;
@@ -20,24 +21,35 @@ class KirimDataScreen extends StatefulWidget {
 
 class _KirimDataScreenState extends State<KirimDataScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _angkaAkhir;
   ImageProvider _img = NetworkImage("https://placehold.it/100");
   String _status = "NORMAL";
   File _imageFile;
+  double _lat;
+  double _lng;
+
+  _fetchLocation() async{
+    final pos = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      _lat = pos.latitude;
+      _lng = pos.longitude;
+    });
+
+    showToast("Lokasi didapatkan");
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _fetchLocation();
   }
 
   @override
   Widget build(BuildContext context) {
     final _state =
-        ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
+    ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Row(
           children: <Widget>[
@@ -103,7 +115,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
               SizedBox(height: 20.0),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: "Angka awal",
+                  hintText: "Stand awal",
                   prefixIcon: Icon(
                     Icons.first_page,
                     color: Colors.white,
@@ -119,7 +131,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                   setState(() => _angkaAkhir = x);
                 },
                 decoration: InputDecoration(
-                  hintText: "Masukan angka akhir",
+                  hintText: "Masukan stand akhir",
                   prefixIcon: Icon(
                     Icons.last_page,
                     color: Colors.white,
@@ -139,21 +151,31 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                 style: TextStyle(color: Colors.white),
               ),
               SizedBox(height: 20.0),
-              DropdownButtonFormField<String>(
-                items: [
-                  DropdownMenuItem<String>(
-                    value: "NORMAL",
-                    child: Text("NORMAL"),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: "RUSAK",
-                    child: Text("RUSAK"),
-                  ),
-                ],
-                value: _status,
-                onChanged: (x) {
-                  setState(() => _status = x);
-                },
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2.0,
+                      style: BorderStyle.solid,
+                    )),
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: "NORMAL",
+                      child: Text("NORMAL"),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: "RUSAK",
+                      child: Text("RUSAK"),
+                    ),
+                  ],
+                  value: _status,
+                  onChanged: (x) {
+                    setState(() => _status = x);
+                  },
+                ),
               ),
               SizedBox(height: 20.0),
               Container(
@@ -180,7 +202,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                 ),
                 onPressed: () async {
                   File f =
-                      await mp.pickImage(ImageSource.camera, withCropper: true);
+                  await mp.pickImage(ImageSource.camera, withCropper: true);
                   setState(() => _img = FileImage(f));
                   setState(() => _imageFile = f);
                 },
@@ -207,6 +229,9 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                     input.angkaAkhir = _angkaAkhir;
                     input.statusMeteran = _status;
                     input.fotoMeteran = base64Encode(bytes);
+                    input.latitude = _lat.toString();
+                    input.longitude = _lng.toString();
+                    print(input.toMap());
                     await _state.inputDataMeteran(data: input);
                     showToast("Data terkirim.");
                     Navigator.pop(context);

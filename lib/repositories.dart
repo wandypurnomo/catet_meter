@@ -26,11 +26,10 @@ Future<bool> login(String username,String password) async{
 }
 
 Future<User> profile() async{
-  final resp = await r.makeAuthRequestNew(r.RequestType.GET, "/profile");
+  final resp = await r.makeAuthRequestNew(r.RequestType.POST, "/profile");
 
   final body = jsonDecode(resp.body);
-
-  if(body["status"] == 0){
+  if(resp.statusCode != 200 && body["status"] == 0){
     return null;
   }
 
@@ -54,8 +53,11 @@ Future<DetailPelanggan> getDetailPelanggan({@required String kode}) async{
 }
 
 Future<PaginatedData<Pelanggan>> getPaginatedPelaggan({int page:1}) async{
-  final resp = await r.makeAuthRequestNew(r.RequestType.GET, "/listpelangganp?page=$page");
+  final resp = await r.makeAuthRequestNew(r.RequestType.POST, "/listpelangganp?page=$page");
   final body = jsonDecode(resp.body);
+
+  print(body);
+
   if(resp.statusCode != 200 || body["success"] != 1){
     throw Exception("Tidak ada data");
   }
@@ -110,7 +112,7 @@ Future<bool> resetPassword(String newPassword) async{
     "passuser": newPassword
   };
 
-  final resp = await r.makeAuthRequest(r.RequestType.POST, "/resetpwd",body: body);
+  final resp = await r.makeAuthRequestNew(r.RequestType.POST, "/resetpwd",body: body);
   final respBody = jsonDecode(resp.body);
 
   print(respBody);
@@ -139,7 +141,7 @@ Future<DetailTagihan> detailTagihan({@required String code}) async{
     "kode_pelanggan": code,
   };
 
-  final resp = await r.makeAuthRequest(r.RequestType.POST, "/detailtagihan",body: body);
+  final resp = await r.makeAuthRequestNew(r.RequestType.POST, "/detailtagihan",body: body);
   final respBody = jsonDecode(resp.body);
 
   if(resp.statusCode == 200 && respBody["status"] == 1) return null;

@@ -12,7 +12,6 @@ class State extends Model{
 
   Future<void> init() async{
     await profile();
-    await getPelanggan();
   }
 
   Future<void> profile() async{
@@ -23,6 +22,8 @@ class State extends Model{
       }else{
         model.isLoggedIn = false;
       }
+    }).catchError((error){
+      model.isLoggedIn = false;
     });
   }
 

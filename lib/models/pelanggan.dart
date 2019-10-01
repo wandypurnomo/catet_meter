@@ -75,6 +75,8 @@ class InputData{
   String angkaAkhir;
   String statusMeteran;
   String fotoMeteran;
+  String latitude;
+  String longitude;
 
   toMap(){
     return {
@@ -83,6 +85,8 @@ class InputData{
       "angka_akhir":angkaAkhir,
       "status_meteran":statusMeteran,
       "foto_meteran":fotoMeteran,
+      "latitude":latitude,
+      "longitude":longitude,
     };
   }
 }
