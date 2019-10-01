@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdam/models/pelanggan.dart';
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _camera = FlutterMobileVision.CAMERA_BACK;
+  bool _searchLoading;
   bool _autoFocus = true;
   bool _torch = false;
   bool _multiple = false;
@@ -30,15 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    _searchLoading = false;
     super.initState();
     _c = TextEditingController(text: "");
   }
 
   @override
   Widget build(BuildContext context) {
-    final _state =
-        ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
+    final _state = ScopedModel.of<AppState.State>(context, rebuildOnChange: true);
     return Scaffold(
       appBar: AppBar(
         title: Text("Catat Meter"),
@@ -167,14 +168,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white,
                                         width: 2.0,
                                       ),
-                                      child: Text(
-                                        "Cari",
-                                        style: TextStyle(color: Colors.white),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: _searchLoading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white),strokeWidth: 3,):Text(
+                                          "Cari",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                       ),
                                       onPressed: () async {
-                                        DetailPelanggan d = await _state
-                                            .getDetailPelanggan(kode: _c.text);
-
+                                        setState(() => _searchLoading = true);
+                                        DetailPelanggan d = await _state.getDetailPelanggan(kode: _c.text);
+                                        setState(() => _searchLoading = false);
                                         if (d != null) {
                                           Navigator.push(
                                             context,
