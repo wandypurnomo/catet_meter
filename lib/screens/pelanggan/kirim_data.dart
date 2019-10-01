@@ -162,7 +162,7 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
 
                       final awal =
                           int.parse(widget.detail.angkaTerakhir ?? "0");
-                      if (int.parse(x) < awal) {
+                      if (int.parse(x) <= awal) {
                         return "stand akhir lebih kecil dari stand awal";
                       }
 
