@@ -184,35 +184,43 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                       items: [
                         DropdownMenuItem<String>(
                           value: "normal",
-                          child: Text("NORMAL",style: TextStyle(color: Colors.black45)),
+                          child: Text("NORMAL",
+                              style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
                           value: "buram",
-                          child: Text("BURAM",style: TextStyle(color: Colors.black45)),
+                          child: Text("BURAM",
+                              style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
                           value: "tertanam",
-                          child: Text("TERTANAM",style: TextStyle(color: Colors.black45)),
+                          child: Text("TERTANAM",
+                              style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
                           value: "terkunci/rumah kosong",
-                          child: Text("TERKUNCI/RUMAH KOSONG",style: TextStyle(color: Colors.black45)),
+                          child: Text("TERKUNCI/RUMAH KOSONG",
+                              style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
                           value: "mati",
-                          child: Text("MATI",style: TextStyle(color: Colors.black45)),
+                          child: Text("MATI",
+                              style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
                           value: "baca mundur",
-                          child: Text("BACA MUNDUR",style: TextStyle(color: Colors.black45)),
+                          child: Text("BACA MUNDUR",
+                              style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
                           value: "tidak ada sinyal",
-                          child: Text("TIDAK ADA SINYAL",style: TextStyle(color: Colors.black45)),
+                          child: Text("TIDAK ADA SINYAL",
+                              style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
                           value: "lainya",
-                          child: Text("LAINYA",style: TextStyle(color: Colors.black45)),
+                          child: Text("LAINYA",
+                              style: TextStyle(color: Colors.black45)),
                         ),
                       ],
                       value: _status,
@@ -239,14 +247,36 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                       width: 2.0,
                     ),
                     child: Text(
-                      "Ambil Foto",
+                      "Ambil Foto Dari Kamera",
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     onPressed: () async {
-                      File f = await mp.pickImage(ImageSource.camera,
-                          withCropper: true);
+                      File f = await mp.pickImage(
+                        ImageSource.camera,
+                        withCropper: true,
+                      );
+                      setState(() => _img = FileImage(f));
+                      setState(() => _imageFile = f);
+                    },
+                  ),
+                  OutlineButton(
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                      width: 2.0,
+                    ),
+                    child: Text(
+                      "Ambil Foto Dari Gallery",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () async {
+                      File f = await mp.pickImage(
+                        ImageSource.gallery,
+                        withCropper: true,
+                      );
                       setState(() => _img = FileImage(f));
                       setState(() => _imageFile = f);
                     },
