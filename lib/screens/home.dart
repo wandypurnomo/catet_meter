@@ -243,10 +243,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           final data = x.first.displayValue;
 
-                          DetailPelanggan d =
-                              await _state.getDetailPelanggan(kode: data);
+                          DetailPelanggan d = await _state.getDetailPelanggan(kode: data);
 
-                          DetailTagihan t = await _state.getDetailTagihan(kode: data);
+                          showToast("Memuat data...");
 
                           if (d != null) {
                             Navigator.push(
