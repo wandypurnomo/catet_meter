@@ -3,13 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter/material.dart' as prefix0;
 import 'package:image_picker/image_picker.dart';
 import 'package:pdam/models/pelanggan.dart';
 import 'package:pdam/utils/helper.dart';
