@@ -153,11 +153,11 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                         return "Foto diperlukan";
                       }
 
-                      final awal =
-                          int.parse(widget.detail.angkaTerakhir ?? "0");
-                      if (int.parse(x) <= awal) {
-                        return "stand akhir lebih kecil dari stand awal";
-                      }
+//                      final awal =
+//                          int.parse(widget.detail.angkaTerakhir ?? "0");
+//                      if (int.parse(x) <= awal) {
+//                        return "stand akhir lebih kecil dari stand awal";
+//                      }
 
                       return null;
                     },
