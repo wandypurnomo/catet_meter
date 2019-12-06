@@ -16,10 +16,9 @@ Future<File> pickImage(
     if (withCropper) {
       return pickedImage = await ImageCropper.cropImage(
         sourcePath: pickedImage.path,
-        ratioX: 1.0,
-        ratioY: 1.0,
         maxWidth: maxWidth,
         maxHeight: maxWidth,
+        aspectRatio: CropAspectRatio(ratioX: 1,ratioY: 1),
       );
     }
 
