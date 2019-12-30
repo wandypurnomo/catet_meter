@@ -3,13 +3,13 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdam/models/pelanggan.dart';
-import 'package:pdam/utils/helper.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:pdam/state.dart' as AppState;
+import 'package:pdam/utils/helper.dart';
 import 'package:pdam/utils/media_process.dart' as mp;
-import 'package:geolocator/geolocator.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class KirimDataScreen extends StatefulWidget {
   final DetailPelanggan detail;
@@ -176,42 +176,37 @@ class _KirimDataScreenState extends State<KirimDataScreen> {
                       isExpanded: true,
                       items: [
                         DropdownMenuItem<String>(
-                          value: "normal",
-                          child: Text("NORMAL",
+                          value: "Baik",
+                          child: Text("BAIK",
                               style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
-                          value: "buram",
+                          value: "Tidak Baik",
+                          child: Text("TIDAK BAIK",
+                              style: TextStyle(color: Colors.black45)),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: "Buram",
                           child: Text("BURAM",
                               style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
-                          value: "tertanam",
+                          value: "Tertanam",
                           child: Text("TERTANAM",
                               style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
-                          value: "terkunci/rumah kosong",
-                          child: Text("TERKUNCI/RUMAH KOSONG",
+                          value: "Terkunci",
+                          child: Text("TERKUNCI",
                               style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
-                          value: "mati",
+                          value: "Mati",
                           child: Text("MATI",
                               style: TextStyle(color: Colors.black45)),
                         ),
                         DropdownMenuItem<String>(
-                          value: "baca mundur",
-                          child: Text("BACA MUNDUR",
-                              style: TextStyle(color: Colors.black45)),
-                        ),
-                        DropdownMenuItem<String>(
-                          value: "tidak ada sinyal",
-                          child: Text("TIDAK ADA SINYAL",
-                              style: TextStyle(color: Colors.black45)),
-                        ),
-                        DropdownMenuItem<String>(
-                          value: "lainya",
+                          value: "Lain2",
                           child: Text("LAINYA",
                               style: TextStyle(color: Colors.black45)),
                         ),

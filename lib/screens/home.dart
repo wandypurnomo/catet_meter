@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter_mobile_vision/flutter_mobile_vision.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdam/models/pelanggan.dart';
-import 'package:pdam/models/tagihan.dart';
+import 'package:pdam/screens/pelanggan/kirim_data.dart';
 import 'package:pdam/screens/pelanggan/ubah_password.dart';
 import 'package:pdam/utils/helper.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_mobile_vision/flutter_mobile_vision.dart';
-import '../state.dart' as AppState;
 import 'package:pdam/utils/media_process.dart' as mp;
+import 'package:scoped_model/scoped_model.dart';
 
+import '../state.dart' as AppState;
 import 'pelanggan/detail_pelanggan.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -183,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  DetailPelangganScreen(
+                                                  KirimDataScreen(
                                                 detail: d,
                                               ),
                                             ),
@@ -316,36 +315,36 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.all(5.0),
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, "pelanggan");
-                        },
-                        child: Card(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "${_state.model.user.totalPelanggan}",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 30.0,
-                                ),
-                              ),
-                              Text(
-                                "Total Pelanggan",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+//                  Expanded(
+//                    child: Ink(
+//                      child: InkWell(
+//                        onTap: () {
+//                          Navigator.pushNamed(context, "pelanggan");
+//                        },
+//                        child: Card(
+//                          child: Column(
+//                            mainAxisSize: MainAxisSize.max,
+//                            mainAxisAlignment: MainAxisAlignment.center,
+//                            children: <Widget>[
+//                              Text(
+//                                "${_state.model.user.totalPelanggan}",
+//                                style: TextStyle(
+//                                  color: Colors.blue,
+//                                  fontSize: 30.0,
+//                                ),
+//                              ),
+//                              Text(
+//                                "Total Pelanggan",
+//                                style: TextStyle(
+//                                  color: Colors.blue,
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
                   Expanded(
                     child: Ink(
                       child: InkWell(
@@ -377,42 +376,42 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            Container(
-              height: 110.0,
-              padding: EdgeInsets.all(5.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Card(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "${_state.model.user.progressCatat}",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 30.0,
-                                ),
-                              ),
-                              Text(
-                                "Progress Catat",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+//            Container(
+//              height: 110.0,
+//              padding: EdgeInsets.all(5.0),
+//              child: Row(
+//                children: <Widget>[
+//                  Expanded(
+//                    child: Ink(
+//                      child: InkWell(
+//                        onTap: () {},
+//                        child: Card(
+//                          child: Column(
+//                            mainAxisSize: MainAxisSize.max,
+//                            mainAxisAlignment: MainAxisAlignment.center,
+//                            children: <Widget>[
+//                              Text(
+//                                "${_state.model.user.progressCatat}",
+//                                style: TextStyle(
+//                                  color: Colors.blue,
+//                                  fontSize: 30.0,
+//                                ),
+//                              ),
+//                              Text(
+//                                "Progress Catat",
+//                                style: TextStyle(
+//                                  color: Colors.blue,
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ],
+//              ),
+//            ),
           ],
         ),
       ),
