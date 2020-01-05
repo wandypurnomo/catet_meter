@@ -33,6 +33,8 @@ class DetailPelanggan {
   final String tagihanTahunLalu;
   final String angkaTerakhir;
   final String kondisiMeteranTerakhir;
+  final String lat;
+  final String lng;
 
   DetailPelanggan({
     this.id,
@@ -48,6 +50,8 @@ class DetailPelanggan {
     this.tagihanTahunLalu,
     this.angkaTerakhir,
     this.kondisiMeteranTerakhir,
+    this.lat,
+    this.lng,
   });
 
   factory DetailPelanggan.fromJson(Map<String,dynamic> json){
@@ -65,6 +69,8 @@ class DetailPelanggan {
       tagihanTahunLalu: json["tagihan_tahun_lalu"],
       angkaTerakhir: json["angka_terakhir"],
       kondisiMeteranTerakhir: json["kondisi_meteran_terakhir"],
+      lat: json["latitude"],
+      lng: json["longitude"],
     );
   }
 }

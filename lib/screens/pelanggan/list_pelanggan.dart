@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:incrementally_loading_listview/incrementally_loading_listview.dart';
 import 'package:pdam/models/paginated_data.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../models/pelanggan.dart';
 import '../../state.dart' as AppState;
 import 'package:pdam/repositories.dart' as repo;
@@ -141,14 +142,9 @@ class _ListPelangganState extends State<ListPelanggan> {
             _loadingDetail = false;
           });
           if (d != null) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailPelangganScreen(
-                  detail: d,
-                ),
-              ),
-            );
+            if(d.lat != null && d.lng != null){
+              _launchUrl(double.parse(d.lat), double.parse(d.lng));
+            }
           }
         },
         child: Card(
@@ -201,6 +197,13 @@ class _ListPelangganState extends State<ListPelanggan> {
           return _pelangganItem(context, _item);
         },
       );
+    }
+  }
+
+  _launchUrl(double lat,double lng) async{
+    String googleUrl = 'comgooglemaps://?center=$lat,$lng';
+    if(await canLaunch(googleUrl)){
+      launch(googleUrl);
     }
   }
 }
