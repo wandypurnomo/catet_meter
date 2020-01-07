@@ -4,8 +4,10 @@ class Pelanggan {
   final String nama;
   final String status;
   final String flag;
+  final String lat;
+  final String lng;
 
-  Pelanggan({this.id, this.kode, this.nama, this.status,this.flag});
+  Pelanggan({this.id, this.kode, this.nama, this.status,this.flag,this.lat,this.lng});
 
   factory Pelanggan.fromJson(Map<String, dynamic> json) {
     print(json);
@@ -15,6 +17,8 @@ class Pelanggan {
       nama: json["nama_pelanggan"],
       status: json["status_data"],
       flag: json["flag"],
+      lat: json["latitude"],
+      lng: json["longitude"],
     );
   }
 }

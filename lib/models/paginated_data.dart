@@ -1,8 +1,8 @@
 class PaginatedData<T> {
-  int currentPage;
-  int firstPage;
-  int lastPage;
-  int total;
+  String currentPage;
+  String firstPage;
+  String lastPage;
+  String total;
   bool hasMorePages;
   List<T> items;
   bool isEmpty;

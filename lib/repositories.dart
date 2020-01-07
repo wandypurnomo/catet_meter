@@ -53,12 +53,12 @@ Future<DetailPelanggan> getDetailPelanggan({@required String kode}) async {
 
 Future<PaginatedData<Pelanggan>> getPaginatedPelaggan({int page: 1}) async {
   final resp = await r.makeAuthRequestNew(
-      r.RequestType.POST, "/listpelangganp?page=$page");
+      r.RequestType.POST, "/listpelanggan?page=$page");
   final body = jsonDecode(resp.body);
 
   print(body);
 
-  if (resp.statusCode != 200 || body["success"] != 1) {
+  if (resp.statusCode != 200) {
     throw Exception("Tidak ada data");
   }
 
@@ -70,8 +70,8 @@ Future<PaginatedData<Pelanggan>> getPaginatedPelaggan({int page: 1}) async {
     firstPage: body["first_page"],
     lastPage: body["last_page"],
     total: body["total"],
-    isEmpty: body["is_empty"],
-    hasMorePages: body["has_more_pages"],
+    isEmpty: false,
+    hasMorePages: false,
     items: itemList,
   );
 
@@ -80,7 +80,7 @@ Future<PaginatedData<Pelanggan>> getPaginatedPelaggan({int page: 1}) async {
 
 Future<List<Pelanggan>> getPelanggan() async {
   final resp =
-      await r.makeAuthRequestNew(r.RequestType.POST, "/listpelangganp");
+      await r.makeAuthRequestNew(r.RequestType.POST, "/listpelanggan");
   if (resp.statusCode != 200) {
     throw Exception("Data tidak ditemukan");
   }

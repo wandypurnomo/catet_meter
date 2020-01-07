@@ -134,18 +134,10 @@ class _ListPelangganState extends State<ListPelanggan> {
     return Container(
       child: InkWell(
         onTap: () async{
-          setState(() {
-            _loadingDetail = true;
-          });
-          DetailPelanggan d = await _state.getDetailPelanggan(kode: p.kode);
-          setState(() {
-            _loadingDetail = false;
-          });
-          if (d != null) {
-            if(d.lat != null && d.lng != null){
-              _launchUrl(double.parse(d.lat), double.parse(d.lng));
-            }
-          }
+          print(p.lat);
+          print(p.lng);
+          
+          _launchUrl(double.parse(p.lat), double.parse(p.lng));
         },
         child: Card(
           child: ListTile(
@@ -201,9 +193,7 @@ class _ListPelangganState extends State<ListPelanggan> {
   }
 
   _launchUrl(double lat,double lng) async{
-    String googleUrl = 'comgooglemaps://?center=$lat,$lng';
-    if(await canLaunch(googleUrl)){
-      launch(googleUrl);
-    }
+    String googleUrl = 'google.navigation:q=$lat,$lng';
+    launch(googleUrl);
   }
 }
