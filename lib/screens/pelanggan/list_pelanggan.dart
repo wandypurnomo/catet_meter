@@ -193,7 +193,10 @@ class _ListPelangganState extends State<ListPelanggan> {
   }
 
   _launchUrl(double lat,double lng) async{
-    String googleUrl = 'google.navigation:q=$lat,$lng';
-    launch(googleUrl);
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
+    if(await canLaunch(googleUrl)){
+      launch(googleUrl);
+    }
+   ;
   }
 }
